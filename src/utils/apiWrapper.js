@@ -1,15 +1,10 @@
 import axiosInterceptor from "./axiosInterceptor";
 import DOMAIN_BASE_URL from "./config";
 
-export const GET_METHOD = "GET";
-export const POST_METHOD = "POST";
-export const DELETE_METHOD = "DELETE";
-export const PUT_METHOD = "PUT";
-export const PATCH_METHOD = "PATCH";
-
 export const API = async (completeAxiosOptions) => {
   const { method, formData, body, apiUrl, customHeaders, queryParams } =
     completeAxiosOptions;
+
   let jwtToken;
   try {
     try {
@@ -39,7 +34,6 @@ export const API = async (completeAxiosOptions) => {
   } catch (exception) {
     let message = "Something went wrong...";
     if (exception["response"]) {
-      console.log('exception', exception)
       throw new Error(exception["response"].data);
     } else {
       throw new Error(message);
@@ -61,3 +55,9 @@ API.putData = (apiUrl, options) =>
 
 API.patchData = (apiUrl, options) =>
   API({ ...options, method: PATCH_METHOD, apiUrl });
+
+const GET_METHOD = "GET";
+const POST_METHOD = "POST";
+const DELETE_METHOD = "DELETE";
+const PUT_METHOD = "PUT";
+const PATCH_METHOD = "PATCH";

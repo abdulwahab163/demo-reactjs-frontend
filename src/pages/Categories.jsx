@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { CircularProgress } from "@material-ui/core";
 import { MDBDataTableV5 } from "mdbreact";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "reactstrap";
-import { useNavigate, Link, useHref } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { deleteCategory, getAllCategories } from "../redux/actions/categories";
 
@@ -25,7 +26,7 @@ const Categories = () => {
     if (catReducer.categoriesList.length > 0) {
       setRowData();
     }
-  }, [catReducer.categoriesList]);
+  }, [catReducer]);
 
   const columns = [
     {
@@ -69,6 +70,14 @@ const Categories = () => {
     setRows(data);
   };
 
+  if (catReducer.loading) {
+    return <CircularProgress style={{ height: "50px", width: "50px" }} />;
+  }
+
+  if (catReducer.error) {
+    return <div>{catReducer.error}</div>;
+  }
+
   return (
     <div className="container">
       <div className="d-flex justify-content-evenly">
@@ -90,8 +99,8 @@ const Categories = () => {
           searchTop
           searchBottom={false}
           hover
-          entriesOptions={[10, 20, 25]}
-          entries={10}
+          entriesOptions={[5, 20, 25]}
+          entries={5}
           pagesAmount={4}
           data={{ columns, rows }}
         />

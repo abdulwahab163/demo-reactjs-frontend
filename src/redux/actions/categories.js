@@ -37,7 +37,7 @@ export const addCategory = (data, navigation) => async (dispatch) => {
     NotificationManager.error("Error! cannot add category");
     dispatch({
       type: ADD_CATEGORY_ERROR,
-      payload: error.response.data.message,
+      payload: error.message,
     });
   }
 };
@@ -45,7 +45,7 @@ export const addCategory = (data, navigation) => async (dispatch) => {
 export const updateCategory = (id, data, navigation) => async (dispatch) => {
   dispatch({ type: UPDATE_CATEGORY_REQUEST });
   try {
-    await API.putData(`/updateCategory/${id}`, data);
+    await API.putData(`/updateCategory/${id}`, { body: data });
 
     dispatch({ type: UPDATE_CATEGORY_SUCCESS });
     NotificationManager.success("Category updated");
@@ -54,7 +54,7 @@ export const updateCategory = (id, data, navigation) => async (dispatch) => {
     NotificationManager.error("Error! cannot update category");
     dispatch({
       type: UPDATE_CATEGORY_ERROR,
-      payload: error.response.data.message,
+      payload: error.message,
     });
   }
 };
