@@ -25,10 +25,10 @@ function App() {
           <>
             <Route exact path="/" element={<Login />} />
             <Route path="/sign-in" element={<Login />} />
-            <Route path="/sign-up" element={<SignUp />} />
           </>
         )}
 
+        <Route path="/sign-up" element={<SignUp />} />
         {/* protected routes */}
         {/* accessibe only when logged in */}
         {auth?.user && (
