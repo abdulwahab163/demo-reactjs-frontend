@@ -99,7 +99,9 @@ const Cars = () => {
   }
 
   if (carReducer.error) {
-    return <div>{carReducer.error}</div>;
+    return (
+      <div className="fade alert alert-danger show">{carReducer.error}</div>
+    );
   }
 
   if (!carReducer.carsList.length > 0) {

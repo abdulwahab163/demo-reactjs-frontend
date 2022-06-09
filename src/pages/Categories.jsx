@@ -79,7 +79,9 @@ const Categories = () => {
   }
 
   if (catReducer.error) {
-    return <div>{catReducer.error}</div>;
+    return (
+      <div className="fade alert alert-danger show">{catReducer.error}</div>
+    );
   }
 
   if (!catReducer.categoriesList.length > 0) {
