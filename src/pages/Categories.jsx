@@ -50,18 +50,11 @@ const Categories = () => {
         name: item.name,
         actions: (
           <div className="d-flex justify-content-between">
-            <Link
-              className="custom-link"
-              to="/add-update-category"
-              state={{ category: item }}
-            >
-              Edit
+            <Link to="/add-update-category" state={{ category: item }}>
+              <i className="fas fa-pen" aria-hidden="true"></i>
             </Link>
-            <div
-              className="custom-link"
-              onClick={() => dispatch(deleteCategory(item._id))}
-            >
-              Delete
+            <div onClick={() => dispatch(deleteCategory(item._id))}>
+              <i className="fa fa-trash" aria-hidden="true"></i>
             </div>
           </div>
         ),
