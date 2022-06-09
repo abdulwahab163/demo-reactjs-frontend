@@ -107,7 +107,7 @@ const carReducer = function (state = initialState, action) {
         ...state,
         loading: false,
         carsList: state.carsList.filter(
-          (car) => car.id !== payload
+          (car) => car._id !== payload
         ),
       };
     }

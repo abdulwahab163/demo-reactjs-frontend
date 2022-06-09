@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { logout } from "../redux/actions/auth";
+import CustomNavLink from "./CustomNavLink";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -16,36 +17,29 @@ const NavBar = () => {
         <ul className="navbar-nav ml-auto flex-row">
           {auth?.user && (
             <>
-              <li className="nav-item" style={{ marginRight: 20 }}>
-                <Link className="nav-link" to={"/cars"}>
-                  Cars
-                </Link>
+              <li className="nav-item">
+                <CustomNavLink to="/cars" title="Cars" />
               </li>
-              <li className="nav-item" style={{ marginRight: 20 }}>
-                <Link className="nav-link" to={"/categories"}>
-                  Categories
-                </Link>
+              <li className="nav-item">
+                <CustomNavLink to="/categories" title="Categories" />
               </li>
             </>
           )}
           <li className="nav-item">
-            <Link
-              className="nav-link"
-              style={{ marginRight: 20 }}
-              to={"/sign-up"}
-            >
-              Sign up
-            </Link>
+            <CustomNavLink to="/sign-up" title="Sign up" />
           </li>
           <li className="nav-item">
             {!auth?.user ? (
-              <Link className="nav-link" to={"/sign-in"}>
-                Login
-              </Link>
+              <CustomNavLink to="/sign-in" title="Login" />
             ) : (
               <div
-                className="nav-link"
-                style={{ cursor: "pointer" }}
+                className="nav-link ms-1"
+                style={{
+                  cursor: "pointer",
+                  color: "black",
+                  fontWeight: 500,
+                  fontFamily: "Fira Sans",
+                }}
                 onClick={() => dispatch(logout(navigation))}
               >
                 Logout

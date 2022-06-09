@@ -20,25 +20,32 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes>
-        <Route exact path="/" element={<Login />} />
-        <Route path="/sign-in" element={<Login />} />
-        <Route path="/sign-up" element={<SignUp />} />
-      </Routes>
-      {/*  Protected Routes*/}
+        {/* accessibe only when not logged in */}
+        {!auth?.user && (
+          <>
+            <Route exact path="/" element={<Login />} />
+            <Route path="/sign-in" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+          </>
+        )}
 
-      {auth?.user && (
-        <Routes>
-          <Route path="/cars" element={<Cars />} />
-          <Route path="/add-update-car" element={<AddUpdateCar />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/add-update-category" element={<AddUpdateCategory />} />
-        </Routes>
-      )}
+        {/* protected routes */}
+        {/* accessibe only when logged in */}
+        {auth?.user && (
+          <>
+            <Route path="/cars" element={<Cars />} />
+            <Route path="/add-update-car" element={<AddUpdateCar />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route
+              path="/add-update-category"
+              element={<AddUpdateCategory />}
+            />
+          </>
+        )}
 
-      {/* 404 Route*/}
-      {/* <Routes>
+        {/* 404 */}
         <Route path="*" element={<NotFoundPage />} />
-      </Routes> */}
+      </Routes>
     </div>
   );
 }

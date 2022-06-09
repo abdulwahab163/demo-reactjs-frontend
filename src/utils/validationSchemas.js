@@ -14,11 +14,11 @@ export const categoryValidationSchema = yup.object().shape({
 
 export const carValidationSchema = yup.object().shape({
   category_id: yup.string("choose category").required("category is required"),
-  name: yup.string("Enter name").required("name is required"),
-  color: yup.string("Enter color").required("color is required"),
-  model: yup.string("Enter model").required("model is required"),
-  make: yup.string("Enter make").required("make is required"),
-  registration: yup.string("Enter make").required("registration is required"),
+  name: yup.string("Enter name").min(3).required("name is required"),
+  color: yup.string("Enter color").min(3).required("color is required"),
+  model: yup.string("Enter model").min(3).required("model is required"),
+  make: yup.string("Enter make").min(4).required("make is required"),
+  registration: yup.string("Enter make").min(3).required("registration is required"),
 });
 
 export const signInValidationSchema = yup.object().shape({

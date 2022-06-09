@@ -1,24 +1,23 @@
-import baseURL from "../../utils/config";
 import { API } from "./../../utils/apiWrapper";
 
 import { NotificationManager } from "react-notifications";
 
-export const getAllCars = (searchQuery) => async (dispatch) => {
+export const getAllCars = () => async (dispatch) => {
   dispatch({ type: GET_CARS_REQUEST });
-  let page = 0;
-  if (searchQuery && searchQuery.page) {
-    page = searchQuery.page - 1;
-    delete searchQuery.page;
-  }
+
+  const query = {
+    resultsPerPage: 1000,
+    page: 1,
+    sort: "asc",
+  };
+
   try {
-    const { data } = await API.get(`${baseURL}/api/category/search`, {
+    const responce = await API.getData(`/cars`, {
       params: {
-        ...searchQuery,
-        limit: 10,
-        offset: page && page > 0 ? page * 10 : 0,
+        ...query,
       },
     });
-    dispatch({ type: GET_CARS_SUCCESS, payload: data });
+    dispatch({ type: GET_CARS_SUCCESS, payload: responce.cars });
   } catch (error) {
     NotificationManager.error("Error! cannot get cars");
     dispatch({ type: GET_CARS_ERROR, payload: error.message });
@@ -47,10 +46,10 @@ export const updateCar = (id, data, navigation) => async (dispatch) => {
   dispatch({ type: UPDATE_CAR_REQUEST });
   delete data.id;
   try {
-    await API.put(`${baseURL}/api/CAR/${id}`, data);
+    await API.putData(`/updateCar/${id}`, { body: data });
 
     dispatch({ type: UPDATE_CAR_SUCCESS });
-    NotificationManager.success("CAR updated");
+    NotificationManager.success("Car updated");
     navigation("/cars");
   } catch (error) {
     NotificationManager.error("Error! cannot update car");
@@ -65,9 +64,9 @@ export const deleteCar = (id) => async (dispatch) => {
   dispatch({ type: DELETE_CAR_REQUEST });
 
   try {
-    const { data } = await API.delete(`${baseURL}/api/CAR/${id}`);
+    await API.deleteData(`/deleteCar/${id}`);
 
-    dispatch({ type: DELETE_CAR_SUCCESS, payload: data });
+    dispatch({ type: DELETE_CAR_SUCCESS, payload: id });
     NotificationManager.success("CAR Deleted");
   } catch (error) {
     NotificationManager.error("Error! cannot delete car");

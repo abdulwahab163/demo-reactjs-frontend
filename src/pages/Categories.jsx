@@ -53,7 +53,10 @@ const Categories = () => {
             <Link to="/add-update-category" state={{ category: item }}>
               <i className="fas fa-pen" aria-hidden="true"></i>
             </Link>
-            <div onClick={() => dispatch(deleteCategory(item._id))}>
+            <div
+              className="pointer"
+              onClick={() => dispatch(deleteCategory(item._id))}
+            >
               <i className="fa fa-trash" aria-hidden="true"></i>
             </div>
           </div>
@@ -64,11 +67,27 @@ const Categories = () => {
   };
 
   if (catReducer.loading) {
-    return <CircularProgress style={{ height: "50px", width: "50px" }} />;
+    <CircularProgress
+      style={{
+        height: "50px",
+        width: "50px",
+        position: "absolute",
+        top: "50%",
+        right: "50%",
+      }}
+    />;
   }
 
   if (catReducer.error) {
     return <div>{catReducer.error}</div>;
+  }
+
+  if (!catReducer.categoriesList.length > 0) {
+    return (
+      <div style={{ position: "absolute", top: "50%", right: "50%" }}>
+        No Data Found
+      </div>
+    );
   }
 
   return (

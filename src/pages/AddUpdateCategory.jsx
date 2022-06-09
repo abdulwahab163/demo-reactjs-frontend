@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { CircularProgress } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Label, Input } from "reactstrap";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { Button} from "reactstrap";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useFormik } from "formik";
 
 import { categoryValidationSchema } from "../utils/validationSchemas";
-import { getFormikError } from "../utils/helperFunctions";
+import InputField from "../components/InputField";
 import {
   addCategory,
   resetCategoryErrors,
@@ -62,29 +62,16 @@ const AddUpdateCategory = (props) => {
           </h2>
 
           <form>
-            <div className="mt-4">
-              {error && (
-                <div className="fade alert alert-danger show">{error}</div>
-              )}
-              <Label className="d-flex">Category Name</Label>
-
-              <Input
-                type="text"
-                name="name"
-                value={formik.values["name"]}
-                onChange={formik.handleChange}
-                onFocus={() => error && dispatch(resetCategoryErrors())}
-                style={{
-                  maxWidth: "350px",
-                  border:
-                    formik.touched["name"] && formik.errors["name"]
-                      ? "2px solid #FF6565"
-                      : null,
-                }}
-              />
-
-              {getFormikError(formik, "name")}
-            </div>
+            {error && (
+              <div className="fade alert alert-danger show">{error}</div>
+            )}
+            <InputField
+              type="text"
+              title="Category Name"
+              name="name"
+              formik={formik}
+              onFocus={() => error && dispatch(resetCategoryErrors())}
+            />
 
             <div className="mt-5 d-flex justify-content-center">
               <Button

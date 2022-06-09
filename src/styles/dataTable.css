@@ -4,6 +4,10 @@
     text-decoration: underline;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 a.custom-link {
     text-decoration: underline !important;
 }
