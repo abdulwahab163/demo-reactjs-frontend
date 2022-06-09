@@ -1,4 +1,3 @@
-import baseURL from "../../utils/config";
 import { API } from "./../../utils/apiWrapper";
 
 import { NotificationManager } from "react-notifications";
@@ -45,9 +44,8 @@ export const addCategory = (data, navigation) => async (dispatch) => {
 
 export const updateCategory = (id, data, navigation) => async (dispatch) => {
   dispatch({ type: UPDATE_CATEGORY_REQUEST });
-  delete data.id;
   try {
-    await API.put(`${baseURL}/api/category/${id}`, data);
+    await API.putData(`/updateCategory/${id}`, data);
 
     dispatch({ type: UPDATE_CATEGORY_SUCCESS });
     NotificationManager.success("Category updated");
@@ -65,9 +63,9 @@ export const deleteCategory = (id) => async (dispatch) => {
   dispatch({ type: DELETE_CATEGORY_REQUEST });
 
   try {
-    const { data } = await API.delete(`${baseURL}/api/category/${id}`);
+    await API.deleteData(`/deleteCategory/${id}`);
 
-    dispatch({ type: DELETE_CATEGORY_SUCCESS, payload: data });
+    dispatch({ type: DELETE_CATEGORY_SUCCESS, payload: id });
     NotificationManager.success("Category Deleted");
   } catch (error) {
     NotificationManager.error("Error! cannot delete category");

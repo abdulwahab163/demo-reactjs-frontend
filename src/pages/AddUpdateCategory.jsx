@@ -4,14 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Label, Input } from "reactstrap";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useFormik } from "formik";
-import axios from "axios";
 
 import { categoryValidationSchema } from "../utils/validationSchemas";
 import { getFormikError } from "../utils/helperFunctions";
-import { addCategory, resetCategoryErrors } from "../redux/actions/categories";
+import {
+  addCategory,
+  resetCategoryErrors,
+  updateCategory,
+} from "../redux/actions/categories";
 
 const AddUpdateCategory = (props) => {
-  const { id } = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -22,9 +24,10 @@ const AddUpdateCategory = (props) => {
   const [pageType, setPageType] = useState("add");
 
   useEffect(() => {
-    const { pathname, state } = location;
-    if (id && pathname.includes("edit")) {
+    const { state } = location;
+    if (state?.category) {
       setPageType("edit");
+      formik.setValues({ name: state.category.name });
     }
   }, []);
 
@@ -39,10 +42,12 @@ const AddUpdateCategory = (props) => {
   });
 
   const handleAddCategory = (values) => {
-    dispatch(addCategory(values,navigation));
+    if (pageType === "edit") {
+      dispatch(updateCategory(location.state.category._id, values, navigation));
+    } else {
+      dispatch(addCategory(values, navigation));
+    }
   };
-
-  
 
   if (loading) {
     return <CircularProgress style={{ height: "50px", width: "50px" }} />;
@@ -51,7 +56,6 @@ const AddUpdateCategory = (props) => {
   return (
     <div>
       <div className="p-4 d-flex justify-content-center">
-       
         <div className="form-styles">
           <h2 className="form-heading d-flex">
             {pageType === "add" ? "Create New " : "Edit "} Category
@@ -59,7 +63,9 @@ const AddUpdateCategory = (props) => {
 
           <form>
             <div className="mt-4">
-            {error && <div className="fade alert alert-danger show">{error}</div>}
+              {error && (
+                <div className="fade alert alert-danger show">{error}</div>
+              )}
               <Label className="d-flex">Category Name</Label>
 
               <Input

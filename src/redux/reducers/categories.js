@@ -106,9 +106,8 @@ import {
         return {
           ...state,
           loading: false,
-          deleteSuccess: true,
           categoriesList: state.categoriesList.filter(
-            (category) => category.id !== payload.data.id
+            (category) => category.id !== payload
           ),
         };
       }

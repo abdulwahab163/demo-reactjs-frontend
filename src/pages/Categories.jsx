@@ -1,95 +1,99 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MDBDataTableV5 } from "mdbreact";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "reactstrap";
+import { useNavigate, Link, useHref } from "react-router-dom";
+
+import { deleteCategory, getAllCategories } from "../redux/actions/categories";
+
+import "mdbreact/dist/css/mdb.css";
+import "../styles/dataTable.css";
 
 const Categories = () => {
-
+  const dispatch = useDispatch();
   const navigation = useNavigate();
 
-  const [datatable, setDatatable] = useState({
-    columns: [
-      {
-        label: "Name",
-        field: "name",
-        width: 150,
-        attributes: {
-          "aria-controls": "DataTable",
-          "aria-label": "Name",
-        },
-      },
-      {
-        Header: "Actions",
-        style: { textAlign: "center" },
-        accessor: "",
-        Cell: (props) => (
-          <div>
-            <span
-              className="mr-4"
-              // onClick={() => {
-              //   navigate(`/admin/editCategory/${props.original.id}`, {
-              //     state: { category: props.original, level: "one" },
-              //   });
-              // }}
+  const catReducer = useSelector(({ categories }) => categories);
+
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
+
+  useEffect(() => {
+    if (catReducer.categoriesList.length > 0) {
+      setRowData();
+    }
+  }, [catReducer.categoriesList]);
+
+  const columns = [
+    {
+      label: "ID",
+      field: "id",
+    },
+    {
+      label: "Name",
+      field: "name",
+    },
+    {
+      label: "Actions",
+      field: "actions",
+    },
+  ];
+
+  const setRowData = () => {
+    let data = catReducer.categoriesList.map((item) => {
+      return {
+        id: item._id,
+        name: item.name,
+        actions: (
+          <div className="d-flex justify-content-between">
+            <Link
+              className="custom-link"
+              to="/add-update-category"
+              state={{ category: item }}
             >
               Edit
-            </span>
-            <span
-            // onClick={() => {
-            //   setDialogue(true);
-            //   setDeleteData(props.original.id);
-            // }}
+            </Link>
+            <div
+              className="custom-link"
+              onClick={() => dispatch(deleteCategory(item._id))}
             >
               Delete
-            </span>
+            </div>
           </div>
         ),
-      },
-    ],
-    rows: [
-      {
-        name: "Tiger Nixon",
-      },
-      {
-        name: "Garrett Winters",
-      },
-      {
-        name: "Ashton Cox",
-      },
-      {
-        name: "Cedric Kelly",
-      },
-      {
-        name: "Airi Satou",
-      },
-    ],
-  });
+      };
+    });
+    setRows(data);
+  };
 
   return (
-    <div className=" d-flex justify-content-center flex-column">
+    <div className="container">
       <div className="d-flex justify-content-evenly">
-        
         <h5 className="mb-5 mt-3">Categories</h5>
         <div className="mt-4">
           <Button
             className="bg-primary text-white"
             color="none"
-
             onClick={() => navigation("/add-update-category")}
           >
             Add Category
           </Button>
         </div>
       </div>
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-center">
         <MDBDataTableV5
+          striped
+          bordered
           searchTop
           searchBottom={false}
           hover
-          entriesOptions={[5, 20, 25]}
-          entries={5}
+          entriesOptions={[10, 20, 25]}
+          entries={10}
           pagesAmount={4}
-          data={datatable}
+          data={{ columns, rows }}
         />
       </div>
     </div>

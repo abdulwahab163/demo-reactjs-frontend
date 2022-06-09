@@ -1,0 +1,37 @@
+.custom-link {
+    color: #3a49c9!important;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+a.custom-link {
+    text-decoration: underline !important;
+}
+
+.sorting_asc::before { 
+	margin-left: 1rem;
+	margin-top: 3px;
+}
+
+.sorting_asc::after { 
+    margin-left: 1rem;
+    margin-top: 3px;
+}
+
+.sorting_desc::before { 
+	margin-left: 1rem;
+	margin-top: 3px;
+}
+
+.sorting_desc::after { 
+	margin-left: 1rem;
+	margin-top: 3px;
+}
+
+table thead.mdb-dataTable-head > tr > th.sorting_asc {
+    padding-left: 25px;
+}
+
+table thead.mdb-dataTable-head > tr > th.sorting_desc {
+    padding-left: 25px;
+}

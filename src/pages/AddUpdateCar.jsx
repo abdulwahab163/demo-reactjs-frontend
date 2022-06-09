@@ -17,8 +17,8 @@ const AddUpdateCategory = (props) => {
 
   const navigation = useNavigate();
 
-  const categories = useSelector(({ categories }) => categories);
-  const cars = useSelector(({ cars }) => cars);
+  const catReducer = useSelector(({ categories }) => categories);
+  const carReducer = useSelector(({ cars }) => cars);
 
   const [pageType, setPageType] = useState("add");
 
@@ -49,7 +49,7 @@ const AddUpdateCategory = (props) => {
     dispatch(addCar(values, navigation));
   };
 
-  if (categories.loading || cars.loading) {
+  if (catReducer.loading || carReducer.loading) {
     return (
       <div className="mt-5">
         <CircularProgress style={{ height: "50px", width: "50px" }} />;
@@ -60,11 +60,11 @@ const AddUpdateCategory = (props) => {
   return (
     <div>
       <div className="p-4 ">
-        {categories.error && (
-          <div className="fade alert alert-danger show">{categories.error}</div>
+        {catReducer.error && (
+          <div className="fade alert alert-danger show">{catReducer.error}</div>
         )}
-        {cars.error && (
-          <div className="fade alert alert-danger show">{cars.error}</div>
+        {carReducer.error && (
+          <div className="fade alert alert-danger show">{carReducer.error}</div>
         )}
         <div className="d-flex justify-content-center">
           <h2>{pageType === "add" ? "Add New " : "Edit "} Car</h2>
@@ -80,11 +80,12 @@ const AddUpdateCategory = (props) => {
                   name="category_id"
                   value={formik.values["category_id"]}
                   onChange={formik.handleChange}
-                  onFocus={() => cars.error && dispatch(resetCarErrors())}
+                  onFocus={() => carReducer.error && dispatch(resetCarErrors())}
                   style={{
                     maxWidth: "350px",
                     border:
-                      formik.touched["category_id"] && formik.errors["category_id"]
+                      formik.touched["category_id"] &&
+                      formik.errors["category_id"]
                         ? "2px solid #FF6565"
                         : null,
                   }}
@@ -93,8 +94,8 @@ const AddUpdateCategory = (props) => {
                     <option>Please Select Category</option>
                   )}
 
-                  {categories.categoriesList?.length > 0 &&
-                    categories.categoriesList.map((item) => (
+                  {catReducer.categoriesList?.length > 0 &&
+                    catReducer.categoriesList.map((item) => (
                       <option key={item._id} value={item._id}>
                         {item.name}
                       </option>
@@ -111,7 +112,7 @@ const AddUpdateCategory = (props) => {
                   name="name"
                   value={formik.values["name"]}
                   onChange={formik.handleChange}
-                  onFocus={() => cars.error && dispatch(resetCarErrors())}
+                  onFocus={() => carReducer.error && dispatch(resetCarErrors())}
                   style={{
                     maxWidth: "350px",
                     border:
@@ -133,7 +134,7 @@ const AddUpdateCategory = (props) => {
                   name="color"
                   value={formik.values["color"]}
                   onChange={formik.handleChange}
-                  onFocus={() => cars.error && dispatch(resetCarErrors())}
+                  onFocus={() => carReducer.error && dispatch(resetCarErrors())}
                   style={{
                     maxWidth: "350px",
                     border:
@@ -153,7 +154,7 @@ const AddUpdateCategory = (props) => {
                   name="model"
                   value={formik.values["model"]}
                   onChange={formik.handleChange}
-                  onFocus={() => cars.error && dispatch(resetCarErrors())}
+                  onFocus={() => carReducer.error && dispatch(resetCarErrors())}
                   style={{
                     maxWidth: "350px",
                     border:
@@ -175,7 +176,7 @@ const AddUpdateCategory = (props) => {
                   name="make"
                   value={formik.values["make"]}
                   onChange={formik.handleChange}
-                  onFocus={() => cars.error && dispatch(resetCarErrors())}
+                  onFocus={() => carReducer.error && dispatch(resetCarErrors())}
                   style={{
                     maxWidth: "350px",
                     border:
@@ -195,7 +196,7 @@ const AddUpdateCategory = (props) => {
                   name="registration"
                   value={formik.values["registration"]}
                   onChange={formik.handleChange}
-                  onFocus={() => cars.error && dispatch(resetCarErrors())}
+                  onFocus={() => carReducer.error && dispatch(resetCarErrors())}
                   style={{
                     maxWidth: "350px",
                     border:
